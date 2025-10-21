@@ -17,14 +17,14 @@ NET_SHARED="${CURRENT_PROJECT_DIR}_${INNER_DOCKER_COMPOSE_SHARED_NETWORK}"
 show_help() {
   echo "Usage: $0 [mode]"
   echo "Modes:"
-  echo "  packetloss   -> 20% packet loss, 100ms delay"
-  echo "  throttle     -> Bandwidth limit 100kbit, latency 400ms"
-  echo "  disconnect   -> Disconnect A from shared network"
-  echo "  reconnect    -> Reconnect A from shared network"
-  echo "  outage       -> Disconnect both from network3 for 10s"
-  echo "  dnsfail      -> Break DNS for A"
-  echo "  flap         -> Intermittent connect/disconnect (5 cycles)"
-  echo "  reset        -> Remove all netem rules"
+  echo "  packetloss   -> 🌐 20% packet loss, 100ms delay"
+  echo "  throttle     -> 🐢 Bandwidth limit 100kbit, latency 400ms"
+  echo "  disconnect   -> 🚫 Disconnect A from shared network"
+  echo "  reconnect    -> 🔁 Reconnect A from shared network"
+  echo "  outage       -> 🚫 Disconnect both from network3 for 10s"
+  echo "  dnsfail      -> ❌ Break DNS for A"
+  echo "  flap         -> 🪠 Intermittent connect/disconnect (5 cycles)"
+  echo "  reset        -> 🧹 Resetting and Remove all netem rules"
   echo
   echo "Examples:"
   echo "  $0 packetloss"
@@ -72,7 +72,7 @@ case "$1" in
     docker exec "$CONTA_A" sh -c 'echo "nameserver 127.0.0.1" > /etc/resolv.conf'
     ;;
   flap)
-    echo "🔁 Starting intermittent network flapping (5 cycles)..."
+    echo "🪠 Starting intermittent network flapping (5 cycles)..."
     for i in {1..5}; do
       echo "Cycle $i: disconnect..."
       docker network disconnect "$NET_SHARED" "$CONTA_A"
