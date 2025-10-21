@@ -15,6 +15,7 @@ show_help() {
   echo "Usage: $0 [mode]"
   echo "Modes:"
   echo "  disconnect        Temporarily disconnect container-a from shared network"
+  echo "  reconnect         Reconnect container-a to shared network"
   echo "  packetloss        Simulate 20% packet loss and 100ms delay"
   echo "  throttle          Limit bandwidth to 100kbit with 400ms latency"
   echo "  outage            Bring down the shared network temporarily"
@@ -35,9 +36,11 @@ case "$1" in
   disconnect)
     echo "🚫 Disconnecting $CONTA_A from $NET_SHARED..."
     docker network disconnect "$NET_SHARED" "$CONTA_A"
-    # sleep 5
-    # echo "🔁 Reconnecting $CONTA_A..."
-    # docker network connect "$NET_SHARED" "$CONTA_A"
+    ;;
+
+  reconnect)
+    echo "🔁 Reconnecting $CONTA_A to $NET_SHARED..."
+    docker network connect "$NET_SHARED" "$CONTA_A"
     ;;
 
   packetloss)

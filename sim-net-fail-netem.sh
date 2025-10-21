@@ -19,7 +19,8 @@ show_help() {
   echo "Modes:"
   echo "  packetloss   -> 20% packet loss, 100ms delay"
   echo "  throttle     -> Bandwidth limit 100kbit, latency 400ms"
-  echo "  disconnect   -> Disconnect A from shared network for 5s"
+  echo "  disconnect   -> Disconnect A from shared network"
+  echo "  reconnect    -> Reconnect A from shared network"
   echo "  outage       -> Disconnect both from network3 for 10s"
   echo "  dnsfail      -> Break DNS for A"
   echo "  flap         -> Intermittent connect/disconnect (5 cycles)"
@@ -52,9 +53,10 @@ case "$1" in
   disconnect)
     echo "🚫 Disconnecting $CONTA_A from $NET_SHARED..."
     docker network disconnect "$NET_SHARED" "$CONTA_A"
-    # sleep 5
-    # echo "🔁 Reconnecting..."
-    # docker network connect "$NET_SHARED" "$CONTA_A"
+    ;;
+  reconnect)
+    echo "🔁 Reconnecting $CONTA_A to $NET_SHARED..."
+    docker network connect "$NET_SHARED" "$CONTA_A"
     ;;
   outage)
     echo "💥 Simulating total network3 outage..."
