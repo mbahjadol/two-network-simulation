@@ -8,6 +8,7 @@ function get_help() {
   echo "Commands:"
   echo "  up        - 🚀 Create and Start the containers in detached mode"
   echo "  down      - 🛑 Stop and remove the containers"
+  echo "  recompose - 🔄 Recompose the containers (down + up)"
   echo "  start     - ▶️ Start existing containers"
   echo "  stop      - ⏸️ Stop running containers"
   echo "  restart   - 🔄 Restart the containers"
@@ -21,6 +22,10 @@ if [ "$1" = "up" ]; then
 elif [ "$1" = "down" ]; then
   echo "🛑 Stopping and removing containers..."
   docker compose down
+elif [ "$1" = "recompose" ]; then
+  echo "🔄 Recomposing containers..."
+  docker compose down
+  docker compose up -d
 elif [ "$1" = "start" ]; then
   echo "▶️ Starting existing containers..."
   docker compose start -d
