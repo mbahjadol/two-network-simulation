@@ -14,14 +14,14 @@ NET_SHARED="${CURRENT_PROJECT_DIR}_${INNER_DOCKER_COMPOSE_SHARED_NETWORK}"
 show_help() {
   echo "Usage: $0 [mode]"
   echo "Modes:"
-  echo "  disconnect        Temporarily disconnect container-a from shared network"
-  echo "  reconnect         Reconnect container-a to shared network"
-  echo "  packetloss        Simulate 20% packet loss and 100ms delay"
-  echo "  throttle          Limit bandwidth to 100kbit with 400ms latency"
-  echo "  outage            Bring down the shared network temporarily"
-  echo "  dnsfail           Break DNS resolution"
-  echo "  flap              Intermittent connect/disconnect every 10s"
-  echo "  reset             Restore normal network conditions"
+  echo "  disconnect        🚫 Temporarily disconnect container-a from shared network"
+  echo "  reconnect         🔁 Reconnect container-a to shared network"
+  echo "  packetloss        🌐 Simulate 20% packet loss and 100ms delay"
+  echo "  throttle          🐢 Limit bandwidth to 100kbit with 400ms latency"
+  echo "  outage            💥Bring down the shared network temporarily"
+  echo "  dnsfail           ❌ Break DNS resolution"
+  echo "  flap              🪠 Intermittent connect/disconnect every 10s"
+  echo "  reset             🧹Restore normal network conditions"
   echo
   echo "Examples:"
   echo "  $0 packetloss"
@@ -71,7 +71,7 @@ case "$1" in
     ;;
 
   flap)
-    echo "🔁 Starting intermittent network flapping..."
+    echo "🪠 Starting intermittent network flapping..."
     for i in {1..5}; do
       echo "Cycle $i: disconnect..."
       docker network disconnect "$NET_SHARED" "$CONTA_A"
