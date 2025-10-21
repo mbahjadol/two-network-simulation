@@ -1,0 +1,64 @@
+# docker-compose.yml
+# version: '3.8'
+
+services:
+  container-a:
+    image: ubuntu:latest # Or an image with your echo server
+    container_name: container-a
+    command: >
+      sh -c "
+      apt-get update && apt-get install -y wget;
+      apt-get install -y iproute2;
+      apt-get install -y net-tools;
+      apt-get install -y iptables;
+      wget https://raw.githubusercontent.com/mbahjadol/tcp-test-server/refs/heads/main/tcp-datetimes-server.pl; 
+      chmod +x tcp-datetimes-server.pl; 
+      ./tcp-datetimes-server.pl;
+      "
+    networks:
+      network1:
+      network3:
+    cap_add:
+      - NET_ADMIN # Grants permission to modify network settings inside the container
+
+  container-b:
+    image: ubuntu:latest # Or an image with your test client
+    container_name: container-b
+    # command: ["sleep", "infinity"] # Keeps the container running
+    command: >
+      sh -c "
+      apt-get update && apt-get install -y wget;
+      apt-get install -y ncat && apt-get install -y iproute2;
+      apt-get install -y net-tools;
+      apt-get install -y iptables;
+      wget https://raw.githubusercontent.com/mbahjadol/tcp-test-server/refs/heads/main/tcp-datetime-client.pl;
+      chmod +x tcp-datetime-client.pl;
+      ./tcp-datetime-client.pl container-a 5000;
+
+      #while true; do
+      #  echo \"$(date): trying to connect to container-a:5000\" >> /netcat_log.txt;
+      #  nc container-a 5000 >> netcat_log.txt;
+      #  echo \"$(date): connection closed or failed\" >> /netcat_log.txt;
+      #  sleep 1;
+      #done
+      
+      "
+    networks:
+      network2:
+      network3:
+    cap_add:
+      - NET_ADMIN
+      
+  netem-controller:
+    image: alpine:3.20
+    command: sh -c "sleep infinity"
+    privileged: true
+    networks:
+      - network1
+      - network2
+      - network3
+
+networks:
+  network1:
+  network2:
+  network3:
